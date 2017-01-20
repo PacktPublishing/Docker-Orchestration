@@ -1,0 +1,37 @@
+<div id="page">
+      <div id="sidebar">
+        <ul id="sidebar-items">
+          <li>
+            <h3>Your application's environment</h3>
+
+            <ul>
+                <li>Location: <span class="filepath">/var/www/MyApp</span></li>
+                <li>Template engine: <span class="app-info"><% settings.template %></span></li>
+                <li>Logger: <span class="app-info"><% settings.logger %></span></li>
+                <li>Environment: <span class="app-info"><% settings.environment %></span></li>
+            </ul>
+
+          </li>
+        </ul>
+
+      </div>
+
+      <div id="content">
+        <div id="header">
+          <h1>Simple Web App</h1>
+        </div>
+	<div>
+	  <ul>
+	    <% while (author = authors.next) %>
+	    <li><p><% author.name %>
+	      <ul>
+		<% foreach book in author.books %>
+		<li><% book.title %></li>
+		<% end %>
+	      </ul>
+	    </li>
+	    <% end %>
+	  </ul>
+	</div>
+      </div>
+    </div>

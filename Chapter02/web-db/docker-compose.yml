@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+  web:
+    image: web-db
+    build: .
+    ports:
+      - 80:5000
+    env_file:
+      - db.env
+    entrypoint: ./start.pl --init --command shotgun
+  db:
+    image: mysql
+    env_file:
+      - db.env
