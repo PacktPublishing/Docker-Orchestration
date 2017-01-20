@@ -1,0 +1,33 @@
+{
+  "id" : "nginx-volume",
+  "instances" : 1,
+  "cpus" : 0.25,
+  "mem" : 64.0,
+  "container" : {
+    "type" : "DOCKER",
+    "docker" : {
+      "image" : "nginx",
+      "network" : "USER"
+    },
+    "volumes" : [
+      {
+        "containerPath" : "website",
+        "mode" : "RW",
+        "external" : {
+          "size" : 200,
+          "name" : "testpd",
+          "provider" : "dvdi",
+          "options" : {
+            "dvdi/driver" : "rexray"
+          }
+        }
+      }
+    ]
+  },
+  "ipAddress" : {
+    "networkName" : "dcos"
+  },
+  "residency": {
+    "taskLostBehavior": "WAIT_FOREVER"
+  }
+}

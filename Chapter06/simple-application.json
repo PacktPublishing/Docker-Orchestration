@@ -1,0 +1,13 @@
+{
+  "id" : "simple-nginx",
+  "instances" : 1,
+  "cpus" : 0.25,
+  "mem" : 64.0,
+  "container" : {
+    "type" : "DOCKER",
+    "docker" : {
+      "image" : "nginx:1.11",
+      "network" : "HOST"
+    }
+  }
+}

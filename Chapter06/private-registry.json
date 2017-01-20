@@ -1,0 +1,38 @@
+{
+  "id" : "registry",
+  "cpus" : 0.5,
+  "mem" : 128,
+  "instances" : 1,
+  "labels" : {
+    "HAPROXY_GROUP" : "external"
+  },
+  "container" : {
+    "type" : "DOCKER",
+    "docker" : {
+      "network" : "BRIDGE",
+      "image" : "registry:2",
+      "portMappings" : [
+        {
+          "containerPort" : 5000,
+         "hostPort" : 0,
+         "servicePort" : 10003
+        }
+      ]
+    },
+    "volumes" : [
+      {
+        "containerPath" : "registry",
+        "mode" : "RW",
+        "persistent" : {
+          "size" : 2048
+        }
+      }
+    ]
+  },
+  "env" : {
+    "STORAGE_PATH" : "/mnt/mesos/sandbox/registry"
+  },
+  "residency" : {
+    "taskLostBehavior": "WAIT_FOREVER"
+  }
+}

@@ -1,0 +1,16 @@
+{  "id": "/mysql",
+  "instances": 1,
+  "cpus": 1,
+  "mem": 1024,
+    "env": {
+      "MYSQL_ROOT_PASSWORD": "password",
+      "MYSQL_DATABASE": "mydb"
+    },
+    "container": {
+      "docker": {
+        "image": "mysql:5.7",
+        "forcePullImage": true,
+        "network": "HOST"
+      }
+    }
+}

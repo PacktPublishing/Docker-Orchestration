@@ -1,0 +1,28 @@
+{
+  "id" : "nginx-volume",
+  "instances" : 1,
+  "cpus" : 0.25,
+  "mem" : 64.0,
+  "container" : {
+    "type" : "DOCKER",
+    "docker" : {
+      "image" : "nginx",
+      "network" : "USER"
+    },
+    "volumes" : [
+      {
+        "containerPath" : "website",
+        "mode" : "RW",
+        "persistent" : {
+          "size" : 20
+        }
+      }
+    ]
+  },
+  "ipAddress" : {
+    "networkName" : "dcos"
+  },
+  "residency": {
+    "taskLostBehavior": "WAIT_FOREVER"
+  }
+}
