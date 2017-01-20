@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: multi
+  labels:
+    app: wordpress
+spec:
+  containers:
+    - name: wordpress
+      image: wordpress
+      ports:
+        - containerPort: 80
+        - containerPort: 443
+      env:
+        - name: WORDPRESS_DB_HOST
+          value: 127.0.0.1
+        - name: WORDPRESS_DB_USER
+          value: wordpress
+        - name: WORDPRESS_DB_PASSWORD
+          value: password
+    - name: db
+      image: mysql
+      env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: password
+        - name: MYSQL_DATABASE
+          value: wordpress
+        - name: MYSQL_USER
+          value: wordpress
+        - name: MYSQL_PASSWORD
+          value: password
