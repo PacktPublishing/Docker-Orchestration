@@ -1,0 +1,11 @@
+[Unit]
+Description=Nginx Sidekick
+BindsTo=nginx.service
+After=nginx.service
+
+[Service]
+ExecStart=/bin/sh -c "while [ true ]; do etcdctl set /services/websites/nginx '{ \"host\": \"%H\", \"port\": 80 }' --ttl 60; sleep 50; done"
+ExecStop=/usr/bin/etcdctl rm /services/websites/nginx
+
+[X-Fleet]
+MachineOf=nginx.service

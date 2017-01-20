@@ -1,0 +1,16 @@
+[Unit]
+Description=Monitor
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=infinity
+ExecStartPre=-/usr/bin/docker kill monitor
+ExecStartPre=-/usr/bin/docker rm monitor
+ExecStartPre=-/usr/bin/docker pull monitor
+ExecStartPre=-mkdir -p /var/lib/monitor
+ExecStart=/usr/bin/docker run -v /var/lib/monitor:/var/www/rrd --net=host --name=monitor hyper/host-monitor
+ExecStop=/usr/bin/docker stop monitor
+
+[X-Fleet]
+Global=true

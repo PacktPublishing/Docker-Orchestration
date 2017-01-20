@@ -1,0 +1,12 @@
+[Unit]
+Description=Nginx
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=infinity
+ExecStartPre=-/usr/bin/docker kill nginx
+ExecStartPre=-/usr/bin/docker rm nginx
+ExecStartPre=-/usr/bin/docker pull nginx
+ExecStart=/usr/bin/docker run --name nginx -p 80:80 nginx
+ExecStop=/usr/bin/docker stop nginx

@@ -1,0 +1,19 @@
+wordpress:
+  upgrade_strategy:
+    start_first: true
+  health_check:
+    port: 80
+    request_line: GET / HTTP/1.0
+    interval: 3000
+    initializing_timeout: 60000
+    unhealthy_threshold: 3
+    strategy: recreate
+    response_timeout: 2000
+db:
+  health_check:
+    port: 3306
+    interval: 3000
+    initializing_timeout: 60000
+    unhealthy_threshold: 3
+    strategy: recreate
+    response_timeout: 2000
