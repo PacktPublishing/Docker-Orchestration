@@ -1,0 +1,28 @@
+image: docker:latest
+services:
+  - docker:dind
+stages:
+  - build
+  - test
+  - release
+  - deploy
+variables:
+  DOCKER_CI_IMAGE: registry.gitlab.com/perlstalker/ci-demo:$CI_BUILD_REF_NAME
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+build-image:
+  stage: build
+  tags:
+    - docker
+  script:
+    - docker build --pull -t $DOCKER_CI_IMAGE .
+    - docker push $DOCKER_CI_IMAGE
+test-image:
+  stage: test
+  tags:
+    - docker
+  script:
+    - docker pull $DOCKER_CI_IMAGE
+    - docker run -d -P --name $CI_BUILD_ID $DOCKER_CI_IMAGE
+    - docker run --rm --network container:$CI_BUILD_ID --name $CI_BUILD_ID-test --entrypoint /tests/content-inside.sh $DOCKER_CI_IMAGE
+    - docker stop $CI_BUILD_ID; docker rm -f $CI_BUILD_ID

@@ -1,0 +1,58 @@
+image: docker:latest
+services:
+  - docker:dind
+stages:
+  - build
+  - test
+  - release
+  - deploy
+variables:
+  DOCKER_CI_IMAGE: registry.gitlab.com/perlstalker/ci-demo:$CI_BUILD_REF_NAME
+  DOCKER_RELEASE_IMAGE: registry.gitlab.com/perlstalker/ci-demo:latest
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+build-image:
+  stage: build
+  tags:
+    - docker
+  script:
+    - docker build --pull -t $DOCKER_CI_IMAGE .
+    - docker push $DOCKER_CI_IMAGE
+test-image:
+  stage: test
+  tags:
+    - docker
+  script:
+    - docker pull $DOCKER_CI_IMAGE
+    - docker run -d -P --name $CI_BUILD_ID $DOCKER_CI_IMAGE
+    - docker run --rm --network container:$CI_BUILD_ID --name $CI_BUILD_ID-test --entrypoint /tests/content-inside.sh $DOCKER_CI_IMAGE
+    - docker stop $CI_BUILD_ID; docker rm -f $CI_BUILD_ID
+release-image:
+  stage: release
+  tags:
+    - docker
+  script:
+    - docker pull $DOCKER_CI_IMAGE
+    - docker tag $DOCKER_CI_IMAGE $DOCKER_RELEASE_IMAGE
+    - docker push $DOCKER_RELEASE_IMAGE
+  only:
+    - deploy
+deploy-to-dev:
+  stage: deploy
+  tags:
+    - docker
+  environment: development
+  script:
+    - ./deploy.sh $DOCKER_CI_IMAGE development
+  only:
+    - deploy
+deploy-to-prod:
+  stage: deploy
+  tags:
+    - docker
+  environment: production
+  script:
+    - ./deploy.sh $DOCKER_CI_IMAGE production
+  only:
+    - deploy
+  when: manual

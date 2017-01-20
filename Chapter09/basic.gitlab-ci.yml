@@ -1,0 +1,23 @@
+image: docker:latest
+services:
+  - docker:dind
+
+stages:
+  - build
+  - test
+  - release
+  - deploy
+
+variables:
+  DOCKER_CI_IMAGE: registry.gitlab.com/perlstalker/ci-demo:$CI_BUILD_REF_NAME
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+
+build-image:
+  stage: build
+  tags:
+    - docker
+  script:
+    - docker build --pull -t $DOCKER_CI_IMAGE .
+    - docker push $DOCKER_CI_IMAGE
