@@ -1,0 +1,6 @@
+#cloud-config
+runcmd:
+  - "/usr/bin/wget -O - http://get.docker.com | /bin/bash",
+  - ['/usr/bin/docker', 'swarm', 'join', '--token', 'SWMTKN-...', 
+  'manager:2377']
+

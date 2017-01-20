@@ -1,0 +1,32 @@
+{
+  "builders" : [
+  {
+    "type" : "qemu",
+    "iso_urls" : ["file:///packer/images/xenial-server-cloudimg-
+      amd64-prep.img"
+    ],
+    "iso_checksum_url" : "file:///packer/images/xenial-server-
+    cloudimg-amd64-prep.img.md5sum",
+    "iso_checksum_type" : "md5",
+    "disk_image" : true,
+    "output_directory" : "/packer/images/xenial-cloudimg",
+    "vm_name": "xenial-cloudimg-amd64-custom.img",
+    "shutdown_command" : "shutdown -P now",
+    "format" : "qcow2",
+    "disk_size" : 20000,
+    "headless" : true,
+    "ssh_username": "root",
+    "ssh_password": "s3cret-s@uce",
+    "ssh_wait_timeout": "10m"
+  }
+  ],
+  "provisioners" : [
+  {
+    "type" : "shell",
+    "scripts" : [
+      "/packer/scripts/install-updates.sh",
+      "/packer/scripts/install-docker.sh"
+    ]
+  }
+  ]
+}

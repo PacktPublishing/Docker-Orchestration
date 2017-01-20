@@ -1,0 +1,17 @@
+provider "aws" {
+  access_key = "ACCESS_KEY"
+  secret_key = "SECRET_KEY"
+  region = "us-west-2"
+}
+
+resource "aws_instance" "docker-hosts" {
+  count = 2
+  ami = "ami-a9d276c9"
+  instance_type = "t2.micro"
+  user_data = "${file("cloud-init.yml")}"
+  key_name = "aws-key"
+  vpc_security_group_ids = [ "sg-ID" ]
+  tags {
+    Name = "dock${count.index}"
+  }
+}
