@@ -1,5 +1,6 @@
 #Docker Orchestration
-This is the code repository for [Docker Orchestration](https://www.packtpub.com/virtualization-and-cloud/docker-orchestration?utm_source=github&utm_medium=repository&utm_campaign=9781787122123), published by [Packt](www.packtpub.com). It contains all the supporting project files necessary to work through the book from start to finish.
+This is the code repository for [Docker Orchestration](https://www.packtpub.com/virtualization-and-cloud/docker-orchestration?utm_source=github&utm_medium=repository&utm_campaign=9781787122123), published by [Packt](https://www.packtpub.com/?utm_source=github). It contains all the supporting project files necessary to work through the book from start to finish.
+
 ## About the Book
 Docker orchestration is what you need when transitioning from deploying containers individually on a single host to deploying complex multi-container apps on many machines.
 
